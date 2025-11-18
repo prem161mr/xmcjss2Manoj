@@ -1,4 +1,5 @@
 import { EditingRenderMiddleware } from '@sitecore-jss/sitecore-jss-nextjs/editing';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 /**
  * This Next.js API route is used to handle GET and POST requests from Sitecore editors.
@@ -40,7 +41,24 @@ export const config = {
   },
 };
 
-// Wire up the EditingRenderMiddleware handler
-const handler = new EditingRenderMiddleware().getHandler();
+// Wire up the EditingRenderMiddleware handler with error handling
+const editingMiddleware = new EditingRenderMiddleware();
+const originalHandler = editingMiddleware.getHandler();
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    await originalHandler(req, res);
+  } catch (error) {
+    console.error('Editing render error:', error);
+
+    // Return a safe error response instead of letting the JSON parsing error propagate
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: 'Rendering error occurred',
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
+  }
+};
 
 export default handler;

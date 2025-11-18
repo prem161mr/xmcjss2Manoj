@@ -34,12 +34,12 @@ export const Banner = (props: ImageProps): JSX.Element => {
   const { sitecoreContext } = useSitecoreContext();
   const isPageEditing = sitecoreContext.pageEditing;
   const isMetadataMode = sitecoreContext?.editMode === EditMode.Metadata;
-  
+
   // Add safety check for fields and Image
   if (!props.fields || !props.fields.Image) {
     return <ImageDefault {...props} />;
   }
-  
+
   const classHeroBannerEmpty =
     isPageEditing && props.fields?.Image?.value?.class === 'scEmptyImage'
       ? 'hero-banner-empty'
@@ -47,7 +47,7 @@ export const Banner = (props: ImageProps): JSX.Element => {
   const backgroundStyle = (props?.fields?.Image?.value?.src && {
     backgroundImage: `url('${props.fields.Image.value.src}')`,
   }) as CSSProperties;
-  
+
   const modifyImageProps = !isMetadataMode
     ? {
         ...props.fields.Image,

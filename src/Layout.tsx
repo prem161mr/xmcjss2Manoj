@@ -55,11 +55,15 @@ const Layout = ({ layoutData, headLinks }: LayoutProps): JSX.Element => {
       <Head>
         <title>{fields?.Title?.value?.toString() || 'Page'}</title>
         <link rel="icon" href={`${publicUrl}/favicon.ico`} />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        />
         {headLinks.map((headLink) => (
           <link rel={headLink.rel} key={headLink.href} href={headLink.href} />
         ))}
       </Head>
-<Navbar />
+      <Navbar />
       {/* root placeholder for the app, which we add components to using route data */}
       <div className={mainClassPageEditing}>
         {layoutData.sitecore.context.renderingType === RenderingType.Component ? (

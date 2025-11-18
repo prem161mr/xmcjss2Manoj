@@ -48,7 +48,7 @@ const getLinkField = (props: NavigationProps): LinkField => ({
 });
 
 export const Default = (props: NavigationProps): JSX.Element => {
-  console.log("Navigation Props", props)
+  console.log('Navigation Props', props);
   const [isOpenMenu, openMenu] = useState(false);
   const { sitecoreContext } = useSitecoreContext();
   const styles =
@@ -89,24 +89,21 @@ export const Default = (props: NavigationProps): JSX.Element => {
     ));
 
   return (
-    // <div className={`component navigation ${styles}`} id={id ? id : undefined}>
-    //   <label className="menu-mobile-navigate-wrapper">
-    //     <input
-    //       type="checkbox"
-    //       className="menu-mobile-navigate"
-    //       checked={isOpenMenu}
-    //       onChange={() => handleToggleMenu()}
-    //     />
-    //     <div className="menu-humburger" />
-    //     <div className="component-content">
-    //       <nav>
-    //         <ul className="clearfix">{list}</ul>
-    //       </nav>
-    //     </div>
-    //   </label>
-    // </div>
-    <div>
-
+    <div className={`component navigation ${styles}`} id={id ? id : undefined}>
+      <label className="menu-mobile-navigate-wrapper">
+        <input
+          type="checkbox"
+          className="menu-mobile-navigate"
+          checked={isOpenMenu}
+          onChange={() => handleToggleMenu()}
+        />
+        <div className="menu-humburger" />
+        <div className="component-content">
+          <nav>
+            <ul className="clearfix">{list}</ul>
+          </nav>
+        </div>
+      </label>
     </div>
   );
 };
@@ -114,7 +111,6 @@ export const Default = (props: NavigationProps): JSX.Element => {
 const NavigationList = (props: NavigationProps) => {
   const { sitecoreContext } = useSitecoreContext();
   const [active, setActive] = useState(false);
-
 
   let children: JSX.Element[] = [];
   if (props.fields.Children && props.fields.Children.length) {
@@ -129,21 +125,18 @@ const NavigationList = (props: NavigationProps) => {
   }
 
   return (
-  
-      <div
-        className={`navigation-title ${children.length ? 'child' : ''}`}
-        onClick={() => setActive(() => !active)}
+    <div
+      className={`navigation-title ${children.length ? 'child' : ''}`}
+      onClick={() => setActive(() => !active)}
+    >
+      <Link
+        field={getLinkField(props)}
+        editable={sitecoreContext.pageEditing}
+        onClick={props.handleClick}
       >
-        <Link
-          field={getLinkField(props)}
-          editable={sitecoreContext.pageEditing}
-          onClick={props.handleClick}
-        >
-          {getNavigationText(props)}
-        </Link>
-      </div>
-    
-    
+        {getNavigationText(props)}
+      </Link>
+    </div>
   );
 };
 
