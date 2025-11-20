@@ -1,10 +1,10 @@
 import { withDatasourceCheck } from '@sitecore-jss/sitecore-jss-nextjs';
 import { ComponentProps } from 'lib/component-props';
-
+ 
 // --------------------
 // TYPES
 // --------------------
-
+ 
 type MenuItem = {
   id: string;
   name: string;
@@ -12,7 +12,7 @@ type MenuItem = {
   url?: { path: string };
   field: { value: string } | null;
 };
-
+ 
 type NavbarGraphQL = {
   item: {
     id: string;
@@ -22,40 +22,40 @@ type NavbarGraphQL = {
     };
   };
 };
-
+ 
 type NavbarProps = ComponentProps & {
   fields: {
     data?: NavbarGraphQL;
   };
 };
-
+ 
 // --------------------
 // COMPONENT
 // --------------------
-
+ 
 const Navbar = (props: NavbarProps) => {
   console.log("Navbar GraphQL Props:", props);
-
+ 
   // SAFE ACCESS
   const results: MenuItem[] =
     props.fields?.data?.item?.children?.results ?? [];
-
+ 
   const menuItems = results
     .map((item) => ({
       id: item.id,
       title: item.displayName || item.name,
       url: item.url?.path || `/${item.name.toLowerCase()}`,
     }));
-
+ 
   return (
     <nav className="navbar navbar-expand-lg text-dark shadow-sm sticky-top">
       <div className="container">
-
+ 
         {/* Brand */}
-        <a className="navbar-brand fw-bold fs-3" href="/">
+        <a className="navbar-brand fw-bold fs-3" href="/" style={{marginLeft:15}}>
           XMCJSS
         </a>
-
+ 
         {/* Mobile Toggler */}
         <button
           className="navbar-toggler border-0"
@@ -65,9 +65,9 @@ const Navbar = (props: NavbarProps) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
+ 
         {/* Menu */}
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNav" style={{marginLeft:600}}>
           <ul className="navbar-nav ms-auto">
             {menuItems.map((item) => (
               <li key={item.id} className="nav-item">
@@ -78,10 +78,10 @@ const Navbar = (props: NavbarProps) => {
             ))}
           </ul>
         </div>
-
+ 
       </div>
     </nav>
   );
 };
-
+ 
 export default withDatasourceCheck()<NavbarProps>(Navbar);

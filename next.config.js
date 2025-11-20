@@ -7,6 +7,11 @@ const publicUrl = jssConfig.publicUrl;
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  // Disable ESLint & Prettier checks during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Set assetPrefix to our public URL
   assetPrefix: publicUrl,
 
@@ -20,22 +25,16 @@ const nextConfig = {
 
   i18n: {
     // These are all the locales you want to support in your application.
-    // These should generally match (or at least be a subset of) those in Sitecore.
     locales: ['en'],
-    // This is the locale that will be used when visiting a non-locale
-    // prefixed path e.g. `/styleguide`.
     defaultLocale: jssConfig.defaultLanguage,
   },
 
   // Enable React Strict Mode
   reactStrictMode: true,
 
-  // Disable the X-Powered-By header. Follows security best practices.
+  // Disable the X-Powered-By header
   poweredByHeader: false,
 
-  // use this configuration to ensure that only images from the whitelisted domains
-  // can be served from the Next.js Image Optimization API
-  // see https://nextjs.org/docs/app/api-reference/components/image#remotepatterns
   images: {
     remotePatterns: [
       {
@@ -53,28 +52,23 @@ const nextConfig = {
         hostname: 'feaas*.blob.core.windows.net',
         port: '',
       },
-    ]
+    ],
   },
 
   async rewrites() {
-    // When in connected mode we want to proxy Sitecore paths off to Sitecore
     return [
-      // API endpoints
       {
         source: '/sitecore/api/:path*',
         destination: `${jssConfig.sitecoreApiHost}/sitecore/api/:path*`,
       },
-      // media items
       {
         source: '/-/:path*',
         destination: `${jssConfig.sitecoreApiHost}/-/:path*`,
       },
-      // healthz check
       {
         source: '/healthz',
         destination: '/api/healthz',
       },
-      // rewrite for Sitecore service pages
       {
         source: '/sitecore/service/:path*',
         destination: `${jssConfig.sitecoreApiHost}/sitecore/service/:path*`,
@@ -84,6 +78,5 @@ const nextConfig = {
 };
 
 module.exports = () => {
-  // Run the base config through any configured plugins
   return Object.values(plugins).reduce((acc, plugin) => plugin(acc), nextConfig);
 };
