@@ -30,7 +30,7 @@ const ImageDefault = (props: ImageProps): JSX.Element => (
 );
 
 export const Banner = (props: ImageProps): JSX.Element => {
-  const id = props.fields?.TargetUrl;
+  
   const { sitecoreContext } = useSitecoreContext();
   const isPageEditing = sitecoreContext.pageEditing;
   const isMetadataMode = sitecoreContext?.editMode === EditMode.Metadata;
@@ -66,7 +66,7 @@ export const Banner = (props: ImageProps): JSX.Element => {
   return (
     <div
       className={`component hero-banner ${props?.params?.styles} ${classHeroBannerEmpty}`}
-      id={id ? id : undefined}
+      
     >
       <div className="component-content sc-sxa-image-hero-banner" style={backgroundStyle}>
         {sitecoreContext.pageEditing ? <JssImage field={modifyImageProps} /> : ''}
@@ -80,10 +80,10 @@ export const Default = (props: ImageProps): JSX.Element => {
 
   if (props.fields && props.fields.Image) {
     const Image = () => <JssImage field={props.fields.Image} />;
-    const id = props.fields.TargetUrl;
+  
 
     return (
-      <div className={`component image ${props?.params?.styles}`} id={id ? id : undefined}>
+      <div className={`component image ${props?.params?.styles}`} >
         <div className="component-content">
           {sitecoreContext.pageState === 'edit' || !props.fields.TargetUrl?.value?.href ? (
             <Image />
